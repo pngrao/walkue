@@ -1,35 +1,97 @@
+import argparse
 import getpass
 import datetime
 import time
 import winsound
 import os
 
-preferences = {'interval' : 30, #in minutes test=0.25
-              'auto_off' : True,
-              'auto_off_time' : 8} #in hours test=0.0166
-
 def main():
     """
-    Function prints welcome message.
-    It starts the cue timer as per user preferences.
-    TODO: get custom user preferences
+    Function prints welcome message and starts the cue timer as per user's preferences.
     Input: None
     Return: None
     """
+    preferences = get_user_preferences()
+
     print(f"Welcome {getpass.getuser()}, Walkue is here to help!")
     start_time = int(time.time())
-    print(f"{datetime.datetime.now():%I:%M:%S %p} : Starting Walkue.",
+
+    time_str = f"{datetime.datetime.now():%I:%M:%S %p} :"
+    space_str = " "
+    print(f"{time_str} Starting Walkue.",
           f"Expect walk cues every {preferences['interval']} mins.")
+
     if preferences['auto_off']:
-        print(" "*13, f"Walkue automatic turn off ON.",
+        print(f"{space_str * len(time_str)} Walkue automatic turn off feature is ON.",
               f"Stopping in {preferences['auto_off_time']} hrs.")
+    else:
+        print(f"{space_str * len(time_str)} Walkue automatic turn off feature is OFF.",
+              f"Use ctrl+c to quit.")
+
     start_cue_timer(start_time, preferences)
+
+def get_user_preferences():
+    """
+    Function collects user preferences by parsing the command line arguments.
+    Default preferences are set via add_argument method of ArgumentParser class.
+    Currently supported arguments:
+    usage: walkue_main.py [-h] [-i INTERVAL] [-o] [-ot AUTO_OFF_TIME]
+                      [-s {beep,bugle,buzzer}]
+
+    optional arguments:
+    -h, --help              show this help message and exit
+    -i INTERVAL, --interval INTERVAL
+                            positive time interval in minutes eg: 30, 45 etc
+    -o, --auto_off          flag to enable or disable automatic off feature
+    -ot AUTO_OFF_TIME, --auto_off_time AUTO_OFF_TIME
+                            automatic off time in hours eg: 8, 9.5 etc
+    -s {beep,bugle,buzzer}, --sound {beep,bugle,buzzer}
+                            choose a sound cue : beep | bugle | buzzer
+    Input:
+    None
+    Return:
+    preferences (dict) : user preferences
+    """
+    #Define all default preferences here
+    default_interval = 30 #0.25
+    default_auto_off_time = 8 #0.0166
+    default_sound = 'beep'
+
+    #Create a parser object and parse all command line arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-i', '--interval',\
+                        help = 'positive time interval in minutes eg: 30, 45 etc',\
+                        type = float, default = default_interval)
+    parser.add_argument('-o', '--auto_off',\
+                        help = 'flag to enable or disable automatic off feature',\
+                        action = 'store_true')
+    parser.add_argument('-ot', '--auto_off_time',\
+                        help = 'automatic off time in hours eg: 8, 9.5 etc',\
+                        type = float, default = default_auto_off_time)
+    parser.add_argument('-s', '--sound',\
+                        help = 'choose a sound cue : beep | bugle | buzzer',\
+                        choices = ['beep', 'bugle', 'buzzer'],\
+                        default = default_sound)
+    args = parser.parse_args()
+
+    #Raise ValueError if negative time values are input
+    if args.interval < 0:
+        raise ValueError('Time interval cannot be a negative value! ***This is not a time machine!***')
+    if args.auto_off_time < 0:
+        raise ValueError('Automatic off time cannot be a negative value! ***This is not a time machine!***')
+
+    #Populate preferences dictionary with parsed arguments
+    preferences = {'interval' : args.interval,
+                  'auto_off' : args.auto_off,
+                  'auto_off_time' : args.auto_off_time,
+                  'sound' : args.sound}
+    return preferences
 
 def start_cue_timer(primo_start_time, preferences):
     """
-    Function sends user audio cue at set intervals.
+    Function sends user, audio cue at set intervals.
     It also handles automatic turn off at specified time.
-    KeyboardInterrupt exception is handled.
+    KeyboardInterrupt exception is handled when user wants to quit.
     Input:
     primo_start_time (int) : application start time in seconds
     preferences (dict) : user preferences
@@ -40,6 +102,13 @@ def start_cue_timer(primo_start_time, preferences):
     if preferences['auto_off']:
         auto_off_time = preferences['auto_off_time'] * 3600
     interval = preferences['interval']*60
+    if preferences['sound'] == 'beep':
+        beep_frequency = 3020
+        beep_duration = 5000
+    else:
+        sound_filedir = 'media/sound/'
+        sound_filename = preferences['sound'] + '.wav'
+        sound_filepath = sound_filedir + sound_filename
     cue_counter = 0
 
     while True:
@@ -47,8 +116,10 @@ def start_cue_timer(primo_start_time, preferences):
         try:
             if curr_time - start_time >= interval:
                 print(f"{datetime.datetime.now():%I:%M:%S %p} : Walkue says, \'WALK!\'")
-                sound_filename = 'media/sound/bugle.wav'
-                winsound.PlaySound(sound_filename, winsound.SND_FILENAME)
+                if preferences['sound'] == 'beep':
+                    winsound.Beep(beep_frequency, beep_duration)
+                else:
+                    winsound.PlaySound(sound_filepath, winsound.SND_FILENAME)
                 cue_counter += 1
                 start_time = curr_time
             time.sleep(1)
