@@ -20,9 +20,9 @@ A Python application that sends the user, cues to get up and walk.
 6. [References](#references)
 
 ## General Information
-Sitting for long hours is clinically known to strain our body and mind. People worldwide, are spending more hours sitting - be it for work or for leisurely activity. Doctors recommend getting up every half an hour and walking for a few minutes before sitting down again.
+Sitting for long hours is clinically known to strain our body and mind. People worldwide, are spending more hours sitting - be it for work or for leisurely activity. Doctors recommend getting up every half an hour and walking for a few minutes before sitting down again.[[1]](#1)[[2]](#2)[[3]](#3)
 
-My motivation to create Walkue, is to help break the habit of prolonged sitting. If you are glued to your desk and your laptop won't let go of you, let Walkue help you! Set how often you would like to get up from your seat. It could be any interval of time, whatever works for you. You will hear sound cues every time its time for you to get up and walk. Just take the cue and WALK. The more steps you take the better will be your health and focus.
+My motivation to create Walkue, is to help break the habit of prolonged sitting. If you are glued to your desk and your laptop won't let go of you, let Walkue help you! Set how often you would like to get up from your seat. It could be any interval of time, whatever works for you. You will hear sound[[4]](#4) cues when it's time for you to get up and walk. Just take the cue and WALK. The more steps you take the better will be your health and focus.
 
 Walkue's sound cues are short and effective without adding distraction. With no dependency or distraction from  smart phone or smart watch, you will not lose your train of thought while walking. A little change in perspective can help you come up with creative solutions.
 
@@ -35,7 +35,7 @@ Python 3.7 on Windows 10
 ### Pre-requisites
 * Python 3.7
 * Windows 10 OS
-* Checkout this repo
+* Clone [this](https://github.com/pngrao/walkue) repo or download it to your Windows directory.
 
 ### Supported terminals:
 * Windows command prompt
@@ -91,7 +91,8 @@ User can let Walkue send sound cues at specific intervals of time. Use the optio
 $python walkue_main.py -o -i 45 -ot 9.5 -s bugle
 ```
 #### Realtime logging
-User is greeted with a welcome message. As per the user's preferences, Walkue sends sound cues. These are displayed as log messages on screen. When the process is complete, it exits with an informative message.
+User is greeted with a welcome message. As per the user's preferences, Walkue sends sound cues. These are displayed as log messages on screen. When the process is complete, it exits with an informative message. A sample run output is below:
+![](readme_files/walkue_run_output_log.png)
 #### User initiated exit handling
 At any point during the running time of Walkue, the user may exit the application by pressing ctrl+c. This is gracefully handled and the run concludes with an informative message.
 
@@ -99,6 +100,12 @@ At any point during the running time of Walkue, the user may exit the applicatio
 Complete. New feature updates are planned.
 
 ## References
-[Windows sound playing interface](https://docs.python.org/3.7/library/winsound.html)
+<a id="1">[1]</a> [What are the risks of sitting too much?](https://www.mayoclinic.org/healthy-lifestyle/adult-health/expert-answers/sitting/faq-20058005) Source: Mayo Clinic
+
+<a id="2">[2]</a> [Why Is Sitting so Bad for Us?](https://www.yalemedicine.org/news/sitting-health-risks) Source: Yale Medicine
+
+<a id="3">[3]</a> [Why sitting is bad for you - Murat Dalkilinç](https://www.youtube.com/watch?v=wUEl8KrMz14&t=2s) Source: TED-Ed
+
+<a id="4">[4]</a> [Windows sound playing interface](https://docs.python.org/3.7/library/winsound.html) Source: Python3 Documentation
 
 ### Created by Pannaga Rao
