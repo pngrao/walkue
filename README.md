@@ -24,7 +24,7 @@ Sitting for long hours is clinically known to strain our body and mind. People w
 
 My motivation to create Walkue, is to help break the habit of prolonged sitting. If you are glued to your desk and your laptop won't let go of you, let Walkue help you! Set how often you would like to get up from your seat. It could be any interval of time, whatever works for you. You will hear a sound[[4]](#4) cue when it's time for you to get up and walk. Just take the cue and WALK. The more steps you take, the better will be your health and focus.
 
-Walkue's sound cues are short and effective without adding distraction. With no dependency or distraction from  smart phone or smart watch, you will not lose your train of thought while walking. A little change in perspective can help you come up with creative solutions.
+Walkue's sound cues are short and effective without adding distraction. With no dependency on or distraction from smart phone or smart watch, you will not lose your train of thought while walking. A little change in perspective can help you come up with creative solutions.
 
 See the setup information and launch commands and try Walkue today!
 
